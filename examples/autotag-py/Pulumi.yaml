@@ -1,0 +1,6 @@
+name: aws-tags-example
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Sample Pulumi program with AWS resources auto-tagging
