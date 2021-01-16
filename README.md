@@ -14,7 +14,8 @@ pip install pulumi_aws_tags
 
 ## Usage
 
-See [examples](examples) directory for usage examples.
+See [examples](https://github.com/tlinhart/pulumi-aws-tags/blob/main/examples)
+directory for usage examples.
 
 ## Reference
 
