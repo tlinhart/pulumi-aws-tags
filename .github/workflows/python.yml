@@ -3,12 +3,18 @@ name: Python workflow
 on:
   push:
     paths:
+    - '.github/workflows/python.yml'
     - 'python/**'
     - 'README.md'
   pull_request:
     paths:
+    - '.github/workflows/python.yml'
     - 'python/**'
     - 'README.md'
+
+defaults:
+  run:
+    working-directory: python
 
 jobs:
   test:
@@ -33,16 +39,14 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip setuptools wheel
-        pip install -r python/requirements.txt
+        pip install -r requirements.txt
         pip install flake8 pytest
     - name: Lint with flake8
       run: |
         flake8 . --statistics
-      working-directory: python
     - name: Test with pytest
       run: |
         pytest
-      working-directory: python
 
   publish:
     name: Build and publish package
@@ -65,4 +69,3 @@ jobs:
       run: |
         python setup.py sdist bdist_wheel
         twine upload dist/*
-      working-directory: python
