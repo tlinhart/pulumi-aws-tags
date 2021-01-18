@@ -1,4 +1,4 @@
-from setuptools import find_packages, setup
+from setuptools import setup
 
 
 def long_description():
@@ -8,7 +8,7 @@ def long_description():
 
 setup(
     name='pulumi-aws-tags',
-    version='0.0.3',
+    version='0.1.0',
     author='Tomáš Linhart',
     author_email='pasmen@gmail.com',
     description='Pulumi package that helps manage tags for AWS resources',
@@ -16,7 +16,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/tlinhart/pulumi-aws-tags',
     license='MIT',
-    packages=find_packages(),
+    packages=['pulumi_aws_tags'],
     keywords='pulumi aws tags',
     classifiers=[
         'Programming Language :: Python :: 3',
