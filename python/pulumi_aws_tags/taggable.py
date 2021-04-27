@@ -29,7 +29,7 @@ def _get_taggable_resource_types():
     for module in modules:
         for name, cls in inspect.getmembers(module, inspect.isclass):
             if issubclass(cls, pulumi.CustomResource):
-                signature = inspect.signature(cls.__init__)
+                signature = inspect.signature(cls._internal_init)
                 if 'tags' in signature.parameters:
                     classes.add(cls)
 

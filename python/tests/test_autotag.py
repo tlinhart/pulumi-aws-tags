@@ -2,13 +2,13 @@ import pulumi
 
 
 class PulumiMocks(pulumi.runtime.Mocks):
-    def new_resource(self, type_, name, inputs, provider, id_):
+    def new_resource(self, args: pulumi.runtime.MockResourceArgs):
         outputs = {
-            **inputs
+            **args.inputs
         }
-        return [f'{name}_id', outputs]
+        return [f'{args.name}_id', outputs]
 
-    def call(self, token, args, provider):
+    def call(self, args: pulumi.runtime.MockCallArgs):
         return {}
 
 
