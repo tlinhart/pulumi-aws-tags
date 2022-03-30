@@ -8,7 +8,7 @@ def long_description():
 
 setup(
     name='pulumi-aws-tags',
-    version='0.2.2',
+    version='0.3.0',
     author='Tomáš Linhart',
     author_email='pasmen@gmail.com',
     description='Pulumi package that helps manage tags for AWS resources',
@@ -27,6 +27,6 @@ setup(
     install_requires=[
         'pulumi>=3.0.0,<4.0.0',
         'pulumi-aws>=4.0.0,<4.7.0; python_version<"3.7"',
-        'pulumi-aws>=4.0.0,<5.0.0; python_version>="3.7"'
+        'pulumi-aws>=4.0.0,<6.0.0; python_version>="3.7"'
     ]
 )
