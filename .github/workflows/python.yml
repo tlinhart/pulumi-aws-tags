@@ -1,71 +1,90 @@
-name: Python workflow
-
+name: Python CI
 on:
   push:
-    paths:
-    - '.github/workflows/python.yml'
-    - 'python/**'
-    - 'README.md'
+    branches: [main]
+    tags: ['*']
   pull_request:
-    paths:
-    - '.github/workflows/python.yml'
-    - 'python/**'
-    - 'README.md'
-
-defaults:
-  run:
-    working-directory: python
-
+    branches: [main]
 jobs:
-  test:
+  setup:
+    name: Set up workflow
+    runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.changes.outputs.tests-context }}
+      package: ${{ steps.changes.outputs.package-context }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check for changes
+        id: changes
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            tests-context:
+              - 'pyproject.toml'
+              - '.flake8'
+              - '**/*.py'
+              - 'python/requirements.txt'
+            package-context:
+              - 'python/**'
+              - 'README.md'
+  tests:
     name: Run tests
+    needs: setup
+    if: needs.setup.outputs.tests == 'true'
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('python/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip setuptools wheel
-        pip install -r requirements.txt
-        pip install flake8 pytest
-    - name: Lint with flake8
-      run: |
-        flake8 . --statistics
-    - name: Test with pytest
-      run: |
-        pytest
-
-  publish:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel
+          pip install black flake8 pytest
+          (cd python && pip install -r requirements.txt)
+      - name: Check formatting with Black
+        run: |
+          black --check --diff .
+      - name: Lint with Flake8
+        run: |
+          flake8 . --statistics
+      - name: Test with pytest
+        run: |
+          pytest python
+  package:
     name: Build and publish package
-    needs: test
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    needs: [setup, tests]
+    if: |
+      needs.setup.outputs.package == 'true' &&
+      !failure() &&
+      github.event_name == 'push' &&
+      startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.x
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        pip install --upgrade pip setuptools wheel twine
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+      - uses: actions/checkout@v3
+      - name: Set up Python 3.x
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.x'
+          cache: pip
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip setuptools wheel twine
+      - name: Build package
+        run: |
+          python setup.py sdist bdist_wheel
+      - name: Publish package
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          twine upload dist/*
