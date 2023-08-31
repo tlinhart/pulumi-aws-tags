@@ -8,7 +8,7 @@ def long_description():
 
 setup(
     name="pulumi-aws-tags",
-    version="0.5.0",
+    version="0.6.0",
     author="Tomáš Linhart",
     author_email="pasmen@gmail.com",
     description="Pulumi package that helps manage tags for AWS resources",
