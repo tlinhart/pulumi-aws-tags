@@ -23,10 +23,9 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.8",
     install_requires=[
         "pulumi>=3.0.0,<4.0.0",
-        'pulumi-aws>=4.0.0,<4.7.0; python_version<"3.7"',
-        'pulumi-aws>=4.0.0,<6.0.0; python_version>="3.7"',
+        "pulumi-aws>=4.0.0,<6.0.0",
     ],
 )
