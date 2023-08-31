@@ -2,7 +2,6 @@ import pulumi
 import pulumi_aws as aws
 from pulumi_aws_tags import register_auto_tags
 
-
 # Automatically inject tags to created AWS resources.
 register_auto_tags(
     {"user:Project": pulumi.get_project(), "user:Stack": pulumi.get_stack()}

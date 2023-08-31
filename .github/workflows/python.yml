@@ -2,7 +2,7 @@ name: Python CI
 on:
   push:
     branches: [main]
-    tags: ['*']
+    tags: ["*"]
   pull_request:
     branches: [main]
 jobs:
@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ['3.6', '3.7', '3.8', '3.9', '3.10']
+        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python ${{ matrix.python-version }}
@@ -26,14 +26,11 @@ jobs:
           pip install black flake8 pytest
           (cd python && pip install -r requirements.txt)
       - name: Check formatting with Black
-        run: |
-          black --check --diff .
+        run: black --check --diff .
       - name: Lint with Flake8
-        run: |
-          flake8 . --statistics
+        run: flake8 . --statistics
       - name: Test with pytest
-        run: |
-          pytest python
+        run: pytest python
   publish:
     name: Build and publish package
     needs: test
@@ -47,17 +44,14 @@ jobs:
       - name: Set up Python 3.x
         uses: actions/setup-python@v3
         with:
-          python-version: '3.x'
+          python-version: "3.x"
           cache: pip
       - name: Install dependencies
-        run: |
-          pip install --upgrade pip setuptools wheel twine
+        run: pip install --upgrade pip setuptools wheel twine
       - name: Build package
-        run: |
-          python setup.py sdist bdist_wheel
+        run: python setup.py sdist bdist_wheel
       - name: Publish package
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          twine upload dist/*
+        run: twine upload dist/*
