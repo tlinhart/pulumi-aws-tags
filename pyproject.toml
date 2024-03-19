@@ -1,9 +1,13 @@
-[tool.black]
-line-length = 79
-target-version = ["py38", "py39", "py310", "py311"]
-
 [tool.ruff]
 cache-dir = "~/.cache/ruff"
-select = ["E", "F", "W", "I"]
 line-length = 79
 target-version = "py38"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+
+[tool.ruff.format]
+skip-magic-trailing-comma = true

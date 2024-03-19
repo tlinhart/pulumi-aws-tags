@@ -24,8 +24,5 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.8",
-    install_requires=[
-        "pulumi>=3.0.0,<4.0.0",
-        "pulumi-aws>=4.0.0,<7.0.0",
-    ],
+    install_requires=["pulumi>=3.0.0,<4.0.0", "pulumi-aws>=4.0.0,<7.0.0"],
 )

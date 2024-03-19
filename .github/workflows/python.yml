@@ -23,10 +23,10 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip setuptools wheel
-          pip install black ruff pytest
+          pip install ruff pytest
           (cd python && pip install -r requirements.txt)
-      - name: Check formatting with Black
-        run: black --check --diff .
+      - name: Check formatting with Ruff
+        run: ruff format --check .
       - name: Lint with Ruff
         run: ruff check .
       - name: Test with pytest
