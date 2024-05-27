@@ -1,5 +1,6 @@
 import pulumi
 import pulumi_aws as aws
+
 from pulumi_aws_tags import register_auto_tags
 
 register_auto_tags(
