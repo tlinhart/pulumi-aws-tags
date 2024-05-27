@@ -22,7 +22,6 @@ jobs:
           cache: pip
       - name: Install dependencies
         run: |
-          pip install --upgrade pip setuptools wheel
           pip install ruff pytest
           (cd python && pip install -r requirements.txt)
       - name: Check formatting with Ruff
@@ -47,9 +46,9 @@ jobs:
           python-version: "3.x"
           cache: pip
       - name: Install dependencies
-        run: pip install --upgrade pip setuptools wheel twine
+        run: pip install --upgrade build twine
       - name: Build package
-        run: python setup.py sdist bdist_wheel
+        run: python -m build
       - name: Publish package
         env:
           TWINE_USERNAME: __token__
