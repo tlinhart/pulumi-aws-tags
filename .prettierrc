@@ -1,0 +1,10 @@
+{
+  "trailingComma": "es5",
+  "bracketSpacing": false,
+  "overrides": [
+    {
+      "files": [".eslintrc", ".prettierrc"],
+      "options": {"parser": "json"}
+    }
+  ]
+}

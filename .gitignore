@@ -4,4 +4,10 @@ __pycache__/
 dist/
 *.egg-info/
 venv/
+
+lib/
+*.tgz
+package-lock.json
+node_modules/
+
 .vscode/
