@@ -1,0 +1,34 @@
+{
+  "name": "pulumi-aws-tags",
+  "version": "0.1.1",
+  "description": "Pulumi package that helps manage tags for AWS resources",
+  "keywords": [
+    "pulumi",
+    "aws",
+    "tags"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tlinhart/pulumi-aws-tags.git",
+    "directory": "nodejs"
+  },
+  "author": {
+    "name": "Tomáš Linhart",
+    "email": "pasmen@gmail.com"
+  },
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepack": "cp --remove-destination ../README.md .",
+    "postpack": "ln -sf ../README.md README.md"
+  },
+  "dependencies": {
+    "@pulumi/aws": "^4.0.0 || ^5.0.0 || ^6.0.0",
+    "@pulumi/pulumi": "^3.0.0"
+  }
+}

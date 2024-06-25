@@ -12,6 +12,20 @@ Use `pip` to install the package:
 pip install pulumi_aws_tags
 ```
 
+### Node.js (JavaScript/TypeScript)
+
+To install the package, use either `npm`:
+
+```bash
+npm install pulumi-aws-tags
+```
+
+or `yarn`:
+
+```bash
+yarn add pulumi-aws-tags
+```
+
 ## Usage
 
 See [examples](https://github.com/tlinhart/pulumi-aws-tags/blob/main/examples)
