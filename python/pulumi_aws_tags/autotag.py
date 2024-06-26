@@ -7,7 +7,8 @@ def register_auto_tags(auto_tags):
     """Register a global auto-tagging stack transformation.
 
     The transformation merges a set of given tags with whatever was also
-    explicitly added to the resource definition."""
+    explicitly added to the resource definition.
+    """
     pulumi.runtime.register_stack_transformation(
         lambda args: _auto_tag(args, auto_tags)
     )
