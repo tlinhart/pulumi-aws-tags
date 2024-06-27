@@ -27,6 +27,9 @@ jobs:
         run: npx prettier --check --ignore-unknown "**/*"
       - name: Lint with ESLint
         run: npx eslint . --ext .ts
+      - name: Test with Mocha
+        run: npx mocha -r ts-node/register "**/*.spec.ts"
+        working-directory: nodejs
   publish:
     name: Build and publish package
     needs: test
