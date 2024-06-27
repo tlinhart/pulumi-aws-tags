@@ -6,6 +6,7 @@ dist/
 venv/
 
 lib/
+bin/
 *.tgz
 package-lock.json
 node_modules/
