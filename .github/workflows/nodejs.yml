@@ -26,7 +26,7 @@ jobs:
       - name: Check formatting with Prettier
         run: npx prettier --check --ignore-unknown "**/*"
       - name: Lint with ESLint
-        run: npx eslint "**/*.ts" eslint.config.mjs
+        run: npx eslint "**/*.ts" {eslint,prettier}.config.mjs
       - name: Test with Mocha
         run: npx mocha -r ts-node/register "**/*.spec.ts"
         working-directory: nodejs
