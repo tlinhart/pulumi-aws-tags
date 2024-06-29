@@ -3,7 +3,7 @@
   "bracketSpacing": false,
   "overrides": [
     {
-      "files": [".eslintrc", ".prettierrc"],
+      "files": ".prettierrc",
       "options": {"parser": "json"}
     }
   ]
