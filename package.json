@@ -10,7 +10,7 @@
     "prettier": "3.3.2",
     "ts-node": "10.9.2",
     "typescript": "5.5.2",
-    "typescript-eslint": "7.14.1",
+    "typescript-eslint": "8.0.0-alpha.10",
     "pulumi-aws-tags": "file:nodejs"
   }
 }
