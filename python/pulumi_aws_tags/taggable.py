@@ -1,4 +1,6 @@
+import importlib
 import inspect
+import pkgutil
 
 import pulumi
 import pulumi_aws
@@ -12,38 +14,35 @@ def _snake_to_camel(s):
     )
 
 
+def _get_resource_type(cls):
+    """Return a type token for the AWS resource class."""
+    path = "/".join(_snake_to_camel(p) for p in cls.__module__.split(".")[1:])
+    name = cls.__name__
+    return f"aws:{path}:{name}"
+
+
 def _get_taggable_resource_types():
     """Return a generator of AWS type tokens that are taggable."""
-    # Get all submodules of the pulumi_aws package.
-    modules = set()
-
-    def walk_modules(module):
-        for name, submodule in inspect.getmembers(module, inspect.ismodule):
-            if (
-                submodule.__name__.startswith(module.__name__)
-                and submodule not in modules
-            ):
-                modules.add(module)
-                walk_modules(submodule)
-
-    walk_modules(pulumi_aws)
-
-    # Get all resource classes which support the tags constructor parameter.
+    # Collect all resource classes from the pulumi_aws package.
     classes = set()
-    for module in modules:
-        for name, cls in inspect.getmembers(module, inspect.isclass):
-            if issubclass(cls, pulumi.CustomResource):
-                signature = inspect.signature(cls._internal_init)
-                if "tags" in signature.parameters:
-                    classes.add(cls)
+    for _, name, _ in pkgutil.walk_packages(
+        path=pulumi_aws.__path__, prefix="pulumi_aws.", onerror=lambda _: None
+    ):
+        module = importlib.import_module(name)
+        for _, cls in inspect.getmembers(
+            module,
+            predicate=lambda m: inspect.isclass(m)
+            and issubclass(m, pulumi.CustomResource),
+        ):
+            classes.add(cls)
 
-    # Yield AWS type tokens.
+    # Yield type token for each resource class supporting the tags constructor
+    # parameter.
     for cls in classes:
-        path = "/".join(
-            _snake_to_camel(name) for name in cls.__module__.split(".")[1:]
-        )
-        name = cls.__name__
-        yield f"aws:{path}:{name}"
+        signature = inspect.signature(cls._internal_init)
+        if "tags" in signature.parameters:
+            type_ = _get_resource_type(cls)
+            yield type_
 
 
 taggable_resource_types = sorted(_get_taggable_resource_types())
