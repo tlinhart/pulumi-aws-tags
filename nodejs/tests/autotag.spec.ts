@@ -27,24 +27,24 @@ describe("infra", function () {
   });
 
   it("server must have tags", function (done) {
-    infra.server.tags.apply((tags) => {
-      tags ? done() : done(new Error("assertion failed"));
-    });
+    infra.server.tags.apply((tags) =>
+      tags ? done() : done(new Error("assertion failed"))
+    );
   });
 
   it("server must have auto-tags", function (done) {
-    infra.server.tags.apply((tags) => {
+    infra.server.tags.apply((tags) =>
       Object.prototype.hasOwnProperty.call(tags, "user:Project")
         ? done()
-        : done(new Error("assertion failed"));
-    });
+        : done(new Error("assertion failed"))
+    );
   });
 
   it("server must have explicitly defined tags", function (done) {
-    infra.server.tags.apply((tags) => {
+    infra.server.tags.apply((tags) =>
       Object.prototype.hasOwnProperty.call(tags, "ServerGroup")
         ? done()
-        : done(new Error("assertion failed"));
-    });
+        : done(new Error("assertion failed"))
+    );
   });
 });
