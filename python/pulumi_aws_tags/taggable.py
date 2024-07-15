@@ -5,6 +5,11 @@ import pkgutil
 import pulumi
 import pulumi_aws
 
+# Known exceptions to the rules for identifying taggable resources.
+_NOT_TAGGABLE_RESOURCE_TYPES = {
+    "aws:devopsguru/resourceCollection:ResourceCollection"
+}
+
 
 def _snake_to_camel(s):
     """Convert a string from snake case to camel case."""
@@ -37,12 +42,13 @@ def _get_taggable_resource_types():
             classes.add(cls)
 
     # Yield type token for each resource class supporting the tags constructor
-    # parameter.
+    # parameter (excluding known exceptions).
     for cls in classes:
         signature = inspect.signature(cls._internal_init)
         if "tags" in signature.parameters:
             type_ = _get_resource_type(cls)
-            yield type_
+            if type_ not in _NOT_TAGGABLE_RESOURCE_TYPES:
+                yield type_
 
 
 taggable_resource_types = sorted(_get_taggable_resource_types())
