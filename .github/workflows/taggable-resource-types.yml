@@ -1,0 +1,33 @@
+name: Update taggable resource types
+on:
+  schedule:
+    - cron: "30 1 * * *"
+jobs:
+  update:
+    name: Update taggable resource types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install Python package
+        run: pip install -e python
+      - name: Update taggable resource types
+        run: |
+          python -Wignore -m pulumi_aws_tags.taggable \
+            | jq -Rs 'split("\n") | map(select(. != ""))' \
+            > /tmp/taggable_resource_types.json
+          cp /tmp/taggable_resource_types.json nodejs/taggable_resource_types.json
+      - name: Create or update pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          add-paths: |
+            nodejs/taggable_resource_types.json
+          branch: taggable-resource-types
+          commit-message: Update list of taggable resource types
+          delete-branch: true
+          title: Update list of taggable resource types
+          body: Automatically generated PR to update the list of taggable resource types.
