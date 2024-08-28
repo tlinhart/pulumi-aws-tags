@@ -7,12 +7,12 @@ _UNSUPPORTED_RESOURCE_TYPES = {"aws:autoscaling/group:Group"}
 
 
 def register_auto_tags(auto_tags):
-    """Register a global auto-tagging stack transformation.
+    """Register a global auto-tagging stack transform.
 
-    The transformation merges a set of given tags with whatever was also
-    explicitly added to the resource definition.
+    The transform merges a set of given tags with whatever was also explicitly
+    added to the resource definition.
     """
-    pulumi.runtime.register_stack_transformation(
+    pulumi.runtime.register_resource_transform(
         lambda args: _auto_tag(args, auto_tags)
     )
 
@@ -22,9 +22,9 @@ def _auto_tag(args, auto_tags):
     if is_taggable(args.type_):
         if args.type_ in _UNSUPPORTED_RESOURCE_TYPES:
             pulumi.log.warn(
-                "resource does not support auto-tagging",
-                resource=args.resource,
+                f"resource of type {args.type_} does not support auto-tagging"
             )
             return
-        args.props["tags"] = {**(args.props["tags"] or {}), **auto_tags}
-        return pulumi.ResourceTransformationResult(args.props, args.opts)
+        tags = pulumi.Output.from_input(args.props.get("tags") or {})
+        args.props["tags"] = tags.apply(lambda tags: {**tags, **auto_tags})
+        return pulumi.ResourceTransformResult(args.props, args.opts)

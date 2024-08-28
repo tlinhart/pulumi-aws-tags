@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@pulumi/aws": "^4.0.0 || ^5.0.0 || ^6.0.0",
-    "@pulumi/pulumi": "^3.0.0"
+    "@pulumi/pulumi": "^3.118.0"
   },
   "engines": {
     "node": ">=18"
