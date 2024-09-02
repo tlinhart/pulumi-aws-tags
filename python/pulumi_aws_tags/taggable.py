@@ -28,6 +28,8 @@ def _get_taggable_resource_types():
     """Return a generator of AWS type tokens that are taggable."""
     resources = _get_resources()
     for module_name, classes in resources.items():
+        if not module_name.startswith("pulumi_aws."):
+            continue
         module = importlib.import_module(module_name)
         for class_name, type_ in classes.items():
             cls = getattr(module, class_name)
