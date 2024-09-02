@@ -1,0 +1,7 @@
+{
+  "name": "test",
+  "main": "index.ts",
+  "dependencies": {
+    "pulumi-aws-tags": "file:../.."
+  }
+}

@@ -1,50 +1,55 @@
-import * as pulumi from "@pulumi/pulumi";
+import {LocalWorkspace, Stack, OutputMap} from "@pulumi/pulumi/automation";
+import * as path from "path";
 import "mocha";
 
-pulumi.runtime.setMocks({
-  newResource: function (
-    args: pulumi.runtime.MockResourceArgs
-  ): pulumi.runtime.MockResourceResult {
-    const outputs = {...args.inputs};
-    return {
-      id: `${args.name}_id`,
-      state: outputs,
-    };
-  },
-  call: function (): pulumi.runtime.MockCallResult {
-    return {};
-  },
-});
-
 describe("infra", function () {
-  let infra: typeof import("./infra/index");
+  this.timeout(300000);
 
-  before(function () {
-    // https://github.com/pulumi/pulumi/issues/4669
-    pulumi.runtime.runInPulumiStack(async function () {
-      infra = await import("./infra/index");
-    });
+  let stack: Stack;
+  let outputs: OutputMap;
+
+  before(async function () {
+    stack = await LocalWorkspace.createOrSelectStack(
+      {
+        stackName: "dev",
+        workDir: path.join(__dirname, "infra"),
+      },
+      {
+        envVars: {
+          PULUMI_BACKEND_URL: "file://~",
+          PULUMI_CONFIG_PASSPHRASE: "test",
+        },
+      }
+    );
+    await stack.setAllConfig(
+      {
+        "aws:region": {value: "us-east-1"},
+        "aws:accessKey": {value: "test"},
+        "aws:secretKey": {value: "test"},
+        "aws:skipCredentialsValidation": {value: "true"},
+        "aws:skipRequestingAccountId": {value: "true"},
+        "aws:s3UsePathStyle": {value: "true"},
+        'aws:endpoints[0]["s3"]': {value: "http://localhost:4566"},
+      },
+      true
+    );
+    await stack.up({onOutput: console.log});
+    outputs = await stack.outputs();
   });
 
-  it("server must have tags", function (done) {
-    infra.server.tags.apply((tags) =>
-      tags ? done() : done(new Error("assertion failed"))
-    );
+  after(async function () {
+    await stack.destroy({onOutput: console.log, remove: true});
   });
 
-  it("server must have auto-tags", function (done) {
-    infra.server.tags.apply((tags) =>
-      Object.prototype.hasOwnProperty.call(tags, "user:Project")
-        ? done()
-        : done(new Error("assertion failed"))
-    );
+  it("bucket must have auto-tags", async function () {
+    if (!Object.hasOwn(outputs.bucketTags.value, "user:Project")) {
+      throw new Error("assertion failed");
+    }
   });
 
-  it("server must have explicitly defined tags", function (done) {
-    infra.server.tags.apply((tags) =>
-      Object.prototype.hasOwnProperty.call(tags, "ServerGroup")
-        ? done()
-        : done(new Error("assertion failed"))
-    );
+  it("bucket must have explicitly defined tags", async function () {
+    if (!Object.hasOwn(outputs.bucketTags.value, "foo")) {
+      throw new Error("assertion failed");
+    }
   });
 });

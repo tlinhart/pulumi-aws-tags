@@ -1,29 +1,51 @@
-import pulumi
+import os
+
+from pulumi import automation
+from pulumi.automation import ConfigValue, LocalWorkspaceOptions
 
 
-class PulumiMocks(pulumi.runtime.Mocks):
-    def new_resource(self, args: pulumi.runtime.MockResourceArgs):
-        return f"{args.name}_id", {**args.inputs}
+class TestAutoTags:
+    @classmethod
+    def setup_class(cls) -> None:
+        """Provision test infrastructure."""
+        cls.stack = automation.create_or_select_stack(
+            "dev",
+            work_dir=os.path.join(os.path.dirname(__file__), "infra"),
+            opts=LocalWorkspaceOptions(
+                env_vars={
+                    "PULUMI_BACKEND_URL": "file://~",
+                    "PULUMI_CONFIG_PASSPHRASE": "test",
+                }
+            ),
+        )
+        cls.stack.set_all_config(
+            {
+                "aws:region": ConfigValue("us-east-1"),
+                "aws:accessKey": ConfigValue("test"),
+                "aws:secretKey": ConfigValue("test"),
+                "aws:skipCredentialsValidation": ConfigValue("true"),
+                "aws:skipRequestingAccountId": ConfigValue("true"),
+                "aws:s3UsePathStyle": ConfigValue("true"),
+                'aws:endpoints[0]["s3"]': ConfigValue("http://localhost:4566"),
+            },
+            path=True,
+        )
+        cls.stack.up(on_output=print)
+        cls.outputs = cls.stack.outputs()
 
-    def call(self, args: pulumi.runtime.MockCallArgs):
-        return {}
+    @classmethod
+    def teardown_class(cls) -> None:
+        """Destroy test infrastructure."""
+        cls.stack.destroy(on_output=print, remove=True)
 
+    def test_bucket_has_auto_tags(self) -> None:
+        """Check bucket has auto-tags."""
+        bucket_tags = self.outputs.get("bucket_tags")
+        assert bucket_tags is not None
+        assert "user:Project" in bucket_tags.value
 
-pulumi.runtime.set_mocks(PulumiMocks())
-
-from . import infra  # noqa: E402
-
-
-@pulumi.runtime.test
-def test_server_has_tags():
-    def check_tags(args):
-        urn, tags = args
-        assert tags is not None, f"server {urn} must have tags"
-        assert "user:Project" in tags, f"server {urn} must have auto-tags"
-        assert (
-            "ServerGroup" in tags
-        ), f"server {urn} must have explicitly defined tags"
-
-    return pulumi.Output.all(infra.server.urn, infra.server.tags).apply(
-        check_tags
-    )
+    def test_bucket_has_explicit_tags(self) -> None:
+        """Check bucket has explicitly defined tags."""
+        bucket_tags = self.outputs.get("bucket_tags")
+        assert bucket_tags is not None
+        assert "foo" in bucket_tags.value

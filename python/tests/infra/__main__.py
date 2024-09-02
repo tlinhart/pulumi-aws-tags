@@ -6,9 +6,6 @@ register_auto_tags(
     {"user:Project": pulumi.get_project(), "user:Stack": pulumi.get_stack()}
 )
 
-server = aws.ec2.Instance(
-    "server",
-    instance_type="t2.micro",
-    ami="ami-0bb75d95f668ff5a7",
-    tags={"ServerGroup": "webservers"},
-)
+bucket = aws.s3.BucketV2("my-bucket", tags={"foo": "bar"})
+
+pulumi.export("bucket_tags", bucket.tags)

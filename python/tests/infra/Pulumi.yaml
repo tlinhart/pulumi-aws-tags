@@ -1,0 +1,7 @@
+name: test
+description: Test infrastructure
+runtime:
+  name: python
+  options:
+    toolchain: pip
+    virtualenv: venv
