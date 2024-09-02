@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "bin",
+    "lib": ["es2023"],
+    "module": "node16",
+    "target": "es2022",
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true
+  },
+  "files": ["index.ts"]
+}

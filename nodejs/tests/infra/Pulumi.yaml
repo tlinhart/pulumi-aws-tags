@@ -1,0 +1,6 @@
+name: test
+description: Test infrastructure
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm

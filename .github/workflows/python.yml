@@ -26,6 +26,11 @@ jobs:
         run: ruff format --check .
       - name: Lint with Ruff
         run: ruff check .
+      - name: Set up LocalStack
+        uses: LocalStack/setup-localstack@v0.2.3
+        with:
+          image-tag: "latest"
+          install-awslocal: "false"
       - name: Test with pytest
         run: pytest
   publish:
