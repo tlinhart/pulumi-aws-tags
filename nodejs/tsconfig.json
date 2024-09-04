@@ -1,12 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "target": "es2016",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "lib": ["es2023"],
+    "module": "node16",
+    "target": "es2022",
     "resolveJsonModule": true,
     "declaration": true,
     "sourceMap": true,
+    // Needed because of https://github.com/dcodeIO/long.js/issues/109.
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true
   },
