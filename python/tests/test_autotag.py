@@ -1,10 +1,18 @@
 import os
 
 from pulumi import automation
-from pulumi.automation import ConfigValue, LocalWorkspaceOptions
+from pulumi.automation import (
+    ConfigValue,
+    LocalWorkspaceOptions,
+    OutputMap,
+    Stack,
+)
 
 
 class TestAutoTags:
+    stack: Stack
+    outputs: OutputMap
+
     @classmethod
     def setup_class(cls) -> None:
         """Provision test infrastructure."""

@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import importlib
 import inspect
+from collections.abc import Iterator
 
 import pulumi_aws  # noqa: F401
 from pulumi.runtime.rpc import _RESOURCE_MODULES
@@ -10,13 +13,14 @@ _NOT_TAGGABLE_RESOURCE_TYPES = {
 }
 
 
-def _get_resources():
+def _get_resources() -> dict[str, dict[str, str]]:
     """Return all resources provided by registered Pulumi packages."""
-    resources = {}
+    resources: dict[str, dict[str, str]] = {}
     for modules in _RESOURCE_MODULES.values():
         for module in modules:
-            module_name = module.mod_info["fqn"]  # type: ignore
-            resource_classes = module.mod_info["classes"]  # type: ignore
+            mod_info = module.mod_info  # type: ignore[attr-defined]
+            module_name = mod_info["fqn"]
+            resource_classes = mod_info["classes"]
             classes = resources.setdefault(module_name, {})
             classes.update(
                 {name: type_ for type_, name in resource_classes.items()}
@@ -24,7 +28,7 @@ def _get_resources():
     return resources
 
 
-def _get_taggable_resource_types():
+def _get_taggable_resource_types() -> Iterator[str]:
     """Return a generator of AWS type tokens that are taggable."""
     resources = _get_resources()
     for module_name, classes in resources.items():
@@ -44,7 +48,7 @@ def _get_taggable_resource_types():
 taggable_resource_types = sorted(_get_taggable_resource_types())
 
 
-def is_taggable(t):
+def is_taggable(t: str) -> bool:
     """Return if the given resource type is a taggable AWS resource."""
     return t in taggable_resource_types
 
