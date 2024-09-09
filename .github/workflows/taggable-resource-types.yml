@@ -22,7 +22,7 @@ jobs:
             > /tmp/taggable_resource_types.json
           cp /tmp/taggable_resource_types.json nodejs/taggable_resource_types.json
       - name: Create or update pull request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           add-paths: |
             nodejs/taggable_resource_types.json
