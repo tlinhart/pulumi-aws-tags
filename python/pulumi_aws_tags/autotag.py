@@ -16,21 +16,18 @@ def register_auto_tags(auto_tags: Mapping[str, str]) -> None:
     The transform merges a set of given tags with whatever was also explicitly
     added to the resource definition.
     """
-    pulumi.runtime.register_resource_transform(
-        lambda args: _auto_tag(args, auto_tags)
-    )
 
+    def _auto_tag(
+        args: pulumi.ResourceTransformArgs,
+    ) -> pulumi.ResourceTransformResult | None:
+        if is_taggable(args.type_):
+            if args.type_ in _UNSUPPORTED_RESOURCE_TYPES:
+                pulumi.log.warn(f"{args.type_} does not support auto-tagging")
+                return None
+            props = {**args.props}
+            tags = pulumi.Output.from_input(props.get("tags") or {})
+            props["tags"] = tags.apply(lambda tags: {**tags, **auto_tags})
+            return pulumi.ResourceTransformResult(props, args.opts)
+        return None
 
-def _auto_tag(
-    args: pulumi.ResourceTransformArgs, auto_tags: Mapping[str, str]
-) -> pulumi.ResourceTransformResult | None:
-    """Apply the given tags to the resource properties if applicable."""
-    if is_taggable(args.type_):
-        if args.type_ in _UNSUPPORTED_RESOURCE_TYPES:
-            pulumi.log.warn(f"{args.type_} does not support auto-tagging")
-            return None
-        props = {**args.props}
-        tags = pulumi.Output.from_input(props.get("tags") or {})
-        props["tags"] = tags.apply(lambda tags: {**tags, **auto_tags})
-        return pulumi.ResourceTransformResult(props, args.opts)
-    return None
+    pulumi.runtime.register_resource_transform(_auto_tag)
