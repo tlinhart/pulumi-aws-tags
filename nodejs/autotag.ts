@@ -14,9 +14,7 @@ export function registerAutoTags(autoTags: Record<string, string>): void {
   pulumi.runtime.registerResourceTransform((args) => {
     if (isTaggable(args.type)) {
       if (UNSUPPORTED_RESOURCE_TYPES.includes(args.type)) {
-        pulumi.log.warn(
-          `resource of type ${args.type} does not support auto-tagging`
-        );
+        pulumi.log.warn(`${args.type} does not support auto-tagging`);
         return undefined;
       }
       const tags = pulumi.output(args.props.tags || {});

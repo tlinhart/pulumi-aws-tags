@@ -27,9 +27,7 @@ def _auto_tag(
     """Apply the given tags to the resource properties if applicable."""
     if is_taggable(args.type_):
         if args.type_ in _UNSUPPORTED_RESOURCE_TYPES:
-            pulumi.log.warn(
-                f"resource of type {args.type_} does not support auto-tagging"
-            )
+            pulumi.log.warn(f"{args.type_} does not support auto-tagging")
             return None
         props = {**args.props}
         tags = pulumi.Output.from_input(props.get("tags") or {})
