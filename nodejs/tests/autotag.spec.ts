@@ -42,13 +42,13 @@ describe("infra", function () {
   });
 
   it("bucket must have auto-tags", async function () {
-    if (!Object.hasOwn(outputs.bucketTags.value, "user:Project")) {
+    if (!Object.hasOwn(outputs.bucketTags.value, "example:project")) {
       throw new Error("assertion failed");
     }
   });
 
   it("bucket must have explicitly defined tags", async function () {
-    if (!Object.hasOwn(outputs.bucketTags.value, "foo")) {
+    if (!Object.hasOwn(outputs.bucketTags.value, "example:foo")) {
       throw new Error("assertion failed");
     }
   });

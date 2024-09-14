@@ -4,8 +4,8 @@ import {registerAutoTags} from "pulumi-aws-tags";
 
 // Automatically inject tags to created AWS resources.
 registerAutoTags({
-  "user:Project": pulumi.getProject(),
-  "user:Stack": pulumi.getStack(),
+  "example:project": pulumi.getProject(),
+  "example:stack": pulumi.getStack(),
 });
 
 // Create a bunch of AWS resources.

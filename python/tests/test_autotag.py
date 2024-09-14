@@ -50,10 +50,10 @@ class TestAutoTags:
         """Check bucket has auto-tags."""
         bucket_tags = self.outputs.get("bucket_tags")
         assert bucket_tags is not None
-        assert "user:Project" in bucket_tags.value
+        assert "example:project" in bucket_tags.value
 
     def test_bucket_has_explicit_tags(self) -> None:
         """Check bucket has explicitly defined tags."""
         bucket_tags = self.outputs.get("bucket_tags")
         assert bucket_tags is not None
-        assert "foo" in bucket_tags.value
+        assert "example:foo" in bucket_tags.value
