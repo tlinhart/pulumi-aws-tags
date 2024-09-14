@@ -1,22 +1,16 @@
 import os
+from collections.abc import Iterator
 
+import pytest
 from pulumi import automation
-from pulumi.automation import (
-    ConfigValue,
-    LocalWorkspaceOptions,
-    OutputMap,
-    Stack,
-)
+from pulumi.automation import ConfigValue, LocalWorkspaceOptions, Stack
+from pytest import FixtureRequest
 
 
 class TestAutoTags:
-    stack: Stack
-    outputs: OutputMap
-
-    @classmethod
-    def setup_class(cls) -> None:
-        """Provision test infrastructure."""
-        cls.stack = automation.create_or_select_stack(
+    @pytest.fixture(scope="class")
+    def stack(self, request: FixtureRequest) -> Iterator[Stack]:
+        stack = automation.create_or_select_stack(
             "dev",
             work_dir=os.path.join(os.path.dirname(__file__), "infra"),
             opts=LocalWorkspaceOptions(
@@ -26,7 +20,7 @@ class TestAutoTags:
                 }
             ),
         )
-        cls.stack.set_all_config(
+        stack.set_all_config(
             {
                 "aws:region": ConfigValue("us-east-1"),
                 "aws:accessKey": ConfigValue("test"),
@@ -38,22 +32,20 @@ class TestAutoTags:
             },
             path=True,
         )
-        cls.stack.up(on_output=print)
-        cls.outputs = cls.stack.outputs()
+        stack.up(on_output=print)
+        yield stack
+        stack.destroy(on_output=print, remove=True)
 
-    @classmethod
-    def teardown_class(cls) -> None:
-        """Destroy test infrastructure."""
-        cls.stack.destroy(on_output=print, remove=True)
-
-    def test_bucket_has_auto_tags(self) -> None:
+    def test_bucket_has_auto_tags(self, stack: Stack) -> None:
         """Check bucket has auto-tags."""
-        bucket_tags = self.outputs.get("bucket_tags")
+        outputs = stack.outputs()
+        bucket_tags = outputs.get("bucket_tags")
         assert bucket_tags is not None
         assert "example:project" in bucket_tags.value
 
-    def test_bucket_has_explicit_tags(self) -> None:
+    def test_bucket_has_explicit_tags(self, stack: Stack) -> None:
         """Check bucket has explicitly defined tags."""
-        bucket_tags = self.outputs.get("bucket_tags")
+        outputs = stack.outputs()
+        bucket_tags = outputs.get("bucket_tags")
         assert bucket_tags is not None
         assert "example:foo" in bucket_tags.value
