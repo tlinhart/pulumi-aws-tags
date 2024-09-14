@@ -1,5 +1,6 @@
 import {LocalWorkspace, Stack, OutputMap} from "@pulumi/pulumi/automation";
 import * as path from "path";
+import {strict as assert} from "assert";
 import "mocha";
 
 describe("infra", function () {
@@ -42,14 +43,22 @@ describe("infra", function () {
   });
 
   it("bucket must have auto-tags", async function () {
-    if (!Object.hasOwn(outputs.bucketTags.value, "example:project")) {
-      throw new Error("assertion failed");
-    }
+    ["tag1", "tag2", "tag3"].forEach((key) => {
+      assert(Object.hasOwn(outputs.bucketTags.value, key));
+    });
   });
 
   it("bucket must have explicitly defined tags", async function () {
-    if (!Object.hasOwn(outputs.bucketTags.value, "example:foo")) {
-      throw new Error("assertion failed");
-    }
+    ["tag2", "tag3", "tag4"].forEach((key) => {
+      assert(Object.hasOwn(outputs.bucketTags.value, key));
+    });
+  });
+
+  it("bucket tag values must conform to merge strategy", async function () {
+    ["tag2", "tag3"].forEach((key) => {
+      assert(Object.hasOwn(outputs.bucketTags.value, key));
+    });
+    assert.strictEqual(outputs.bucketTags.value.tag2, "auto");
+    assert.strictEqual(outputs.bucketTags.value.tag3, "explicit");
   });
 });
