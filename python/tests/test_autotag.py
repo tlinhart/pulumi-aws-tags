@@ -38,16 +38,29 @@ class TestAutoTags:
         yield stack
         stack.destroy(on_output=print, remove=True)
 
-    def test_bucket_has_auto_tags(self, stack: Stack) -> None:
+    def test_bucket_auto_tags(self, stack: Stack) -> None:
         """Check bucket has auto-tags."""
         outputs = stack.outputs()
         bucket_tags = outputs.get("bucket_tags")
         assert bucket_tags is not None
-        assert "example:project" in bucket_tags.value
+        assert all(
+            key in bucket_tags.value for key in ["tag1", "tag2", "tag3"]
+        )
 
-    def test_bucket_has_explicit_tags(self, stack: Stack) -> None:
+    def test_bucket_explicit_tags(self, stack: Stack) -> None:
         """Check bucket has explicitly defined tags."""
         outputs = stack.outputs()
         bucket_tags = outputs.get("bucket_tags")
         assert bucket_tags is not None
-        assert "example:foo" in bucket_tags.value
+        assert all(
+            key in bucket_tags.value for key in ["tag2", "tag3", "tag4"]
+        )
+
+    def test_bucket_tags_precedence(self, stack: Stack) -> None:
+        """Check bucket tag values conform to merge strategy."""
+        outputs = stack.outputs()
+        bucket_tags = outputs.get("bucket_tags")
+        assert bucket_tags is not None
+        assert all(key in bucket_tags.value for key in ["tag2", "tag3"])
+        assert bucket_tags.value["tag2"] == "auto"
+        assert bucket_tags.value["tag3"] == "explicit"

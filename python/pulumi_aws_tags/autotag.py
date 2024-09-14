@@ -10,11 +10,15 @@ from .taggable import is_taggable
 _UNSUPPORTED_RESOURCE_TYPES = {"aws:autoscaling/group:Group"}
 
 
-def register_auto_tags(auto_tags: Mapping[str, str]) -> None:
+def register_auto_tags(
+    auto_tags: Mapping[str, str], *, override: bool = True
+) -> None:
     """Register a global auto-tagging stack transform.
 
     The transform merges a set of given tags with whatever was also explicitly
-    added to the resource definition.
+    added to the resource definition. The default merge strategy is to override
+    any explicitly provided tags with matching keys. To reverse this behavior
+    set `override` to `False`.
     """
 
     def auto_tag(
@@ -26,7 +30,11 @@ def register_auto_tags(auto_tags: Mapping[str, str]) -> None:
                 return None
             props = {**args.props}
             tags = pulumi.Output.from_input(props.get("tags") or {})
-            props["tags"] = tags.apply(lambda tags: {**tags, **auto_tags})
+            props["tags"] = tags.apply(
+                lambda tags: {**tags, **auto_tags}
+                if override
+                else {**auto_tags, **tags}
+            )
             return pulumi.ResourceTransformResult(props, args.opts)
         return None
 
