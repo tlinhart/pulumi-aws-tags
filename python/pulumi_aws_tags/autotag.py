@@ -17,7 +17,7 @@ def register_auto_tags(auto_tags: Mapping[str, str]) -> None:
     added to the resource definition.
     """
 
-    def _auto_tag(
+    def auto_tag(
         args: pulumi.ResourceTransformArgs,
     ) -> pulumi.ResourceTransformResult | None:
         if is_taggable(args.type_):
@@ -30,4 +30,4 @@ def register_auto_tags(auto_tags: Mapping[str, str]) -> None:
             return pulumi.ResourceTransformResult(props, args.opts)
         return None
 
-    pulumi.runtime.register_resource_transform(_auto_tag)
+    pulumi.runtime.register_resource_transform(auto_tag)
