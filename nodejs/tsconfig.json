@@ -13,5 +13,5 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true
   },
-  "files": ["index.ts", "autotag.ts", "taggable.ts", "tests/autotag.spec.ts"]
+  "files": ["index.ts"]
 }
