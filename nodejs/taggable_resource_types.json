@@ -104,6 +104,7 @@
   "aws:cloudwatch/metricStream:MetricStream",
   "aws:codeartifact/domain:Domain",
   "aws:codeartifact/repository:Repository",
+  "aws:codebuild/fleet:Fleet",
   "aws:codebuild/project:Project",
   "aws:codebuild/reportGroup:ReportGroup",
   "aws:codecommit/repository:Repository",
