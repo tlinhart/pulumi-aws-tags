@@ -34,12 +34,16 @@ describe("infra", function () {
       },
       true
     );
-    await stack.up({onOutput: console.log});
+    await stack.up({onOutput: console.log, suppressProgress: true});
     outputs = await stack.outputs();
   });
 
   after(async function () {
-    await stack.destroy({onOutput: console.log, remove: true});
+    await stack.destroy({
+      remove: true,
+      onOutput: console.log,
+      suppressProgress: true,
+    });
   });
 
   it("bucket must have auto-tags", async function () {

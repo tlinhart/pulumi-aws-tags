@@ -34,9 +34,9 @@ class TestAutoTags:
             },
             path=True,
         )
-        stack.up(on_output=print)
+        stack.up(on_output=print, suppress_progress=True)
         yield stack
-        stack.destroy(on_output=print, remove=True)
+        stack.destroy(remove=True, on_output=print, suppress_progress=True)
 
     def test_bucket_auto_tags(self, stack: Stack) -> None:
         """Check bucket has auto-tags."""

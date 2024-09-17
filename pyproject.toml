@@ -13,4 +13,5 @@ split-on-trailing-comma = false
 skip-magic-trailing-comma = true
 
 [tool.pytest.ini_options]
-addopts = ["--import-mode=importlib"]
+addopts = ["--import-mode=importlib", "--capture=tee-sys"]
+testpaths = ["python"]
