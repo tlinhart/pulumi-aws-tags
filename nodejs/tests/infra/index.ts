@@ -1,5 +1,5 @@
 import * as aws from "@pulumi/aws";
-import {registerAutoTags} from "pulumi-aws-tags";
+import {registerAutoTags} from "../../autotag";
 
 registerAutoTags({tag1: "foo", tag2: "auto"});
 registerAutoTags({tag3: "auto"}, {override: false});
