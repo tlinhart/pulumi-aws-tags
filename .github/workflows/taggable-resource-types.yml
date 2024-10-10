@@ -24,10 +24,11 @@ jobs:
       - name: Create or update pull request
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets._GITHUB_TOKEN }}
           add-paths: |
             nodejs/taggable_resource_types.json
           branch: taggable-resource-types
-          commit-message: Update list of taggable resource types
           delete-branch: true
+          commit-message: Update list of taggable resource types
           title: Update list of taggable resource types
           body: Automatically generated PR to update the list of taggable resource types.
