@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Update to latest npm
-        run: npm install -g npm@latest
+        run: npm update -g npm
       - name: Install dependencies
         run: npm install
       - name: Check formatting with Prettier
@@ -48,7 +48,7 @@ jobs:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
       - name: Update to latest npm
-        run: npm install -g npm@latest
+        run: npm update -g npm
       - name: Install dependencies
         run: npm install
       - name: Build package
