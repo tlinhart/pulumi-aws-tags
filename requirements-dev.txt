@@ -1,6 +1,6 @@
 build==1.2.2.post1
 pytest==8.3.4
-ruff==0.9.5
+ruff==0.9.6
 twine==6.1.0
 
 -e python
