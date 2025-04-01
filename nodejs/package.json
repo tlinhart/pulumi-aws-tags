@@ -1,6 +1,6 @@
 {
   "name": "pulumi-aws-tags",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Pulumi package that helps manage tags for AWS resources",
   "keywords": [
     "pulumi",
