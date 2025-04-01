@@ -8,8 +8,8 @@
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": ["*"],
-      "rangeStrategy": "widen"
+      "rangeStrategy": "widen",
+      "matchPackageNames": ["*"]
     }
   ]
 }
