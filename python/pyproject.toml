@@ -5,8 +5,8 @@ description = "Pulumi package that helps manage tags for AWS resources"
 readme = "README.md"
 keywords = ["pulumi", "aws", "tags"]
 authors = [{ name = "Tomáš Linhart", email = "pasmen@gmail.com" }]
+license = "MIT"
 classifiers = [
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
