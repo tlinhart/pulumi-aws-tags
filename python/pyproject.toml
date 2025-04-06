@@ -15,8 +15,5 @@ requires-python = ">=3.8"
 dependencies = ["pulumi>=3.118.0,<4.0.0", "pulumi_aws>=4.0.0,<7.0.0"]
 
 [build-system]
-requires = ["setuptools>=61"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.package-data]
-pulumi_aws_tags = ["py.typed"]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
