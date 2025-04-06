@@ -23,9 +23,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "tsc",
-    "prepack": "cp --remove-destination ../README.md .",
-    "postpack": "ln -sf ../README.md README.md"
+    "build": "tsc"
   },
   "dependencies": {
     "@pulumi/aws": "^4.0.0 || ^5.0.0 || ^6.0.0",

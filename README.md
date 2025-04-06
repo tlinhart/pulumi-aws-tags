@@ -6,10 +6,16 @@ Pulumi package that helps manage tags for AWS resources.
 
 ### Python
 
-Use `pip` to install the package:
+To install the package, use either `pip`:
 
 ```bash
 pip install pulumi_aws_tags
+```
+
+or `uv`:
+
+```bash
+uv add pulumi_aws_tags
 ```
 
 ### Node.js (JavaScript/TypeScript)
