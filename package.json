@@ -1,11 +1,11 @@
 {
   "private": true,
   "devDependencies": {
-    "@eslint/js": "9.26.0",
+    "@eslint/js": "9.27.0",
     "@types/mocha": "10.0.10",
-    "@types/node": "22.15.18",
-    "eslint": "9.26.0",
-    "mocha": "11.2.2",
+    "@types/node": "22.15.19",
+    "eslint": "9.27.0",
+    "mocha": "11.3.0",
     "prettier": "3.5.3",
     "ts-node": "10.9.2",
     "typescript": "5.8.3",
