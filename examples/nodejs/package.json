@@ -8,6 +8,6 @@
   "dependencies": {
     "@pulumi/aws": "^6.0.0",
     "@pulumi/pulumi": "^3.118.0",
-    "pulumi-aws-tags": "^1"
+    "pulumi-aws-tags": "^1.0.0 || ^2.0.0"
   }
 }
