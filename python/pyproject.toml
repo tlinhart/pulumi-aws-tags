@@ -11,7 +11,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 urls = { Homepage = "https://github.com/tlinhart/pulumi-aws-tags" }
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 dependencies = ["pulumi>=3.118.0,<4.0.0", "pulumi_aws>=4.0.0,<7.0.0"]
 
 [build-system]
