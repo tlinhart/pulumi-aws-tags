@@ -1,4 +1,4 @@
-pytest==8.3.5
-ruff==0.11.12
+pytest==8.4.1
+ruff==0.12.2
 
 -e python
