@@ -30,6 +30,6 @@
     "@pulumi/pulumi": "^3.118.0"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   }
 }
