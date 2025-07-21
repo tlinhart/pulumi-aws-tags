@@ -4,7 +4,7 @@ import {registerAutoTags} from "../../autotag";
 registerAutoTags({tag1: "foo", tag2: "auto"});
 registerAutoTags({tag3: "auto"}, {override: false});
 
-const bucket = new aws.s3.BucketV2("my-bucket", {
+const bucket = new aws.s3.Bucket("my-bucket", {
   tags: {tag2: "explicit", tag3: "explicit", tag4: "bar"},
 });
 
