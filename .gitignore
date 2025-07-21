@@ -11,4 +11,6 @@ bin/
 package-lock.json
 node_modules/
 
+examples/*/Pulumi.dev.yaml
+
 .vscode/

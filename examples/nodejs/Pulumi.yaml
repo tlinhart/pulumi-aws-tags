@@ -1,3 +1,6 @@
 name: aws-tags-example
 description: Sample Pulumi program with AWS resources auto-tagging
-runtime: nodejs
+runtime:
+  name: nodejs
+  options:
+    packagemanager: npm

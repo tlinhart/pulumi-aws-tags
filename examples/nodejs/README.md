@@ -7,7 +7,7 @@ Sample Pulumi program demonstrating auto-tagging of AWS resources.
 1. Create a new stack:
 
    ```bash
-   pulumi stack init aws-tags-example-dev
+   pulumi stack init dev
    ```
 
 1. Set the AWS region:
@@ -29,12 +29,16 @@ Sample Pulumi program demonstrating auto-tagging of AWS resources.
    ```
 
    ```
-   Previewing update (aws-tags-example-dev):
-        Type                      Name                                   Plan
-    +   pulumi:pulumi:Stack       aws-tags-example-aws-tags-example-dev  create
-    +   ├─ aws:ec2:SecurityGroup  web-secgrp                             create
-    +   ├─ aws:s3:Bucket          my-bucket                              create
-    +   └─ aws:ec2:Instance       web-server                             create
+   Previewing update (dev):
+        Type                      Name                  Plan
+    +   pulumi:pulumi:Stack       aws-tags-example-dev  create
+    +   ├─ aws:ec2:SecurityGroup  web-secgrp            create
+    +   ├─ aws:s3:Bucket          my-bucket             create
+    +   └─ aws:ec2:Instance       web-server            create
+
+   Outputs:
+       bucketName: [unknown]
+       serverDns : [unknown]
 
    Resources:
        + 4 to create
@@ -60,4 +64,4 @@ Sample Pulumi program demonstrating auto-tagging of AWS resources.
 
 1. To clean up resources, run `pulumi destroy`.
 
-1. To delete the stack, run `pulumi stack rm aws-tags-example-dev`.
+1. To delete the stack, run `pulumi stack rm dev`.

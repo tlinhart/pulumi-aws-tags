@@ -3,4 +3,5 @@ description: Sample Pulumi program with AWS resources auto-tagging
 runtime:
   name: python
   options:
+    toolchain: pip
     virtualenv: venv
