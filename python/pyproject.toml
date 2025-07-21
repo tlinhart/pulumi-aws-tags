@@ -1,6 +1,6 @@
 [project]
 name = "pulumi_aws_tags"
-version = "2.0.0"
+version = "2.1.0"
 description = "Pulumi package that helps manage tags for AWS resources"
 readme = "README.md"
 keywords = ["pulumi", "aws", "tags"]
