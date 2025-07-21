@@ -26,7 +26,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@pulumi/aws": "^4.0.0 || ^5.0.0 || ^6.0.0",
+    "@pulumi/aws": "^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0",
     "@pulumi/pulumi": "^3.118.0"
   },
   "engines": {
