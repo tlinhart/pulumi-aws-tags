@@ -12,7 +12,7 @@ classifiers = [
 ]
 urls = { Homepage = "https://github.com/tlinhart/pulumi-aws-tags" }
 requires-python = ">=3.9"
-dependencies = ["pulumi>=3.118.0,<4.0.0", "pulumi_aws>=4.0.0,<7.1.0"]
+dependencies = ["pulumi>=3.118.0,<4.0.0", "pulumi_aws>=4.0.0,<8.0.0"]
 
 [build-system]
 requires = ["hatchling"]
