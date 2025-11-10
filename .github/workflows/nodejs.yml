@@ -40,12 +40,14 @@ jobs:
     needs: test
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/nodejs/v')
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v5
-      - name: Set up Node 22
+      - name: Set up Node 24
         uses: actions/setup-node@v6
         with:
-          node-version: "22 || 24"
+          node-version: "24"
           registry-url: "https://registry.npmjs.org"
       - name: Update to latest npm
         run: npm update -g npm
@@ -57,5 +59,3 @@ jobs:
       - name: Publish package
         run: npm publish
         working-directory: nodejs
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
