@@ -28,9 +28,14 @@ class TestAutoTags:
                 "aws:accessKey": ConfigValue("test"),
                 "aws:secretKey": ConfigValue("test"),
                 "aws:skipCredentialsValidation": ConfigValue("true"),
-                "aws:skipRequestingAccountId": ConfigValue("true"),
                 "aws:s3UsePathStyle": ConfigValue("true"),
+                'aws:endpoints[0]["sts"]': ConfigValue(
+                    "http://localhost:4566"
+                ),
                 'aws:endpoints[0]["s3"]': ConfigValue("http://localhost:4566"),
+                'aws:endpoints[0]["s3control"]': ConfigValue(
+                    "http://localhost:4566"
+                ),
             },
             path=True,
         )

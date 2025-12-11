@@ -28,9 +28,10 @@ describe("infra", function () {
         "aws:accessKey": {value: "test"},
         "aws:secretKey": {value: "test"},
         "aws:skipCredentialsValidation": {value: "true"},
-        "aws:skipRequestingAccountId": {value: "true"},
         "aws:s3UsePathStyle": {value: "true"},
+        'aws:endpoints[0]["sts"]': {value: "http://localhost:4566"},
         'aws:endpoints[0]["s3"]': {value: "http://localhost:4566"},
+        'aws:endpoints[0]["s3control"]': {value: "http://localhost:4566"},
       },
       true
     );
