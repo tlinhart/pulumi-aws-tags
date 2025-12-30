@@ -109,6 +109,7 @@
   "aws:cloudformation/stack:Stack",
   "aws:cloudformation/stackSet:StackSet",
   "aws:cloudfront/distribution:Distribution",
+  "aws:cloudfront/trustStore:TrustStore",
   "aws:cloudfront/vpcOrigin:VpcOrigin",
   "aws:cloudhsmv2/cluster:Cluster",
   "aws:cloudtrail/eventDataStore:EventDataStore",
