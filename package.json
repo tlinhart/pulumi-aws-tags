@@ -6,10 +6,10 @@
     "@types/node": "24.10.9",
     "eslint": "9.39.2",
     "mocha": "11.7.5",
-    "prettier": "3.8.0",
+    "prettier": "3.8.1",
     "ts-node": "10.9.2",
     "typescript": "5.9.3",
-    "typescript-eslint": "8.53.0",
+    "typescript-eslint": "8.53.1",
     "pulumi-aws-tags": "file:nodejs"
   }
 }
