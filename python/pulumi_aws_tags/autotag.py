@@ -31,9 +31,11 @@ def register_auto_tags(
             props = {**args.props}
             tags = pulumi.Output.from_input(props.get("tags") or {})
             props["tags"] = tags.apply(
-                lambda tags: {**tags, **auto_tags}
-                if override
-                else {**auto_tags, **tags}
+                lambda tags: (
+                    {**tags, **auto_tags}
+                    if override
+                    else {**auto_tags, **tags}
+                )
             )
             return pulumi.ResourceTransformResult(props, args.opts)
         return None
