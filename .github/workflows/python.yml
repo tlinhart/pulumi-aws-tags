@@ -27,7 +27,7 @@ jobs:
       - name: Lint with Ruff
         run: ruff check .
       - name: Set up LocalStack
-        uses: LocalStack/setup-localstack@v0.3.0
+        uses: LocalStack/setup-localstack@v0.3.2
         with:
           image-tag: "latest"
           install-awslocal: "false"

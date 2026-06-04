@@ -28,7 +28,7 @@ jobs:
       - name: Lint with ESLint
         run: npx eslint "**/*.ts" {eslint,prettier}.config.mjs
       - name: Set up LocalStack
-        uses: LocalStack/setup-localstack@v0.3.0
+        uses: LocalStack/setup-localstack@v0.3.2
         with:
           image-tag: "latest"
           install-awslocal: "false"
