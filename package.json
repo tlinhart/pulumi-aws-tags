@@ -4,12 +4,12 @@
     "@eslint/js": "10.0.1",
     "@types/mocha": "10.0.10",
     "@types/node": "24.19.2",
-    "eslint": "10.13.0",
+    "eslint": "10.14.0",
     "mocha": "12.0.3",
     "prettier": "3.9.10",
     "ts-node": "10.9.2",
     "typescript": "6.0.3",
-    "typescript-eslint": "8.71.2",
+    "typescript-eslint": "8.72.1",
     "pulumi-aws-tags": "file:nodejs"
   }
 }
