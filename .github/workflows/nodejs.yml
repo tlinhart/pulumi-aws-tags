@@ -49,7 +49,7 @@ jobs:
       - name: Set up Node 24
         uses: actions/setup-node@v7
         with:
-          node-version: "24"
+          node-version: "24 || 26"
           registry-url: "https://registry.npmjs.org"
       - name: Update to latest npm
         run: npm update -g npm
