@@ -33,6 +33,8 @@ jobs:
           install-awslocal: "false"
         env:
           LOCALSTACK_AUTH_TOKEN: ${{ secrets.LOCALSTACK_AUTH_TOKEN }}
+      - name: Set up Pulumi
+        uses: pulumi/actions@v7
       - name: Test with pytest
         run: pytest
   publish:
